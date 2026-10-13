@@ -9,6 +9,29 @@ with an optional 3D view seen from above.
 > Z80 sources that Simon Brattel published on the [Design Design site](https://www.desdes.com/index.htm).
 > They are not copied into this repository: they can be downloaded from there.
 
+| the classic view | the 3D view |
+|---|---|
+| ![The classic view](docs/screenshot-classic.png) | ![The 3D view](docs/screenshot-3d.png) |
+
+## Why
+
+Halls of the Things is probably my favourite game of the years I spent in front of a
+ZX Spectrum. On a plain 8-bit machine, with a few coloured characters on a black
+screen, it gave me a real sense of adventure: a maze that was different every time,
+halls full of Things that hunted you, a ring found far from the stairs with your
+wounds rising and your arrows running out. This port is my way of playing it again,
+and of keeping it as it was: the same rules, the same randomness, the same screen,
+with a 3D view as an extra for those who want it.
+
+## The game
+
+Eight floors of halls, a new maze every game, and seven rings hidden among them. The
+halls are full of Things: they hunt you, they hide in disguise when you are not
+looking, and they throw spells of their own. You have a sword, a quiver of arrows,
+fireballs, lightning that bounces off the walls and a heal spell, paid for with your
+magic. Find the seven rings, and the golden key appears in the sanctuary; take it
+back to the way out on floor 0 and you are victorious.
+
 ## Download
 
 [Releases](../../releases): `Halls.exe`, one file for Windows x64, nothing to install
