@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# the single exe of the release
+dist/
+
+# the files of Design Design: downloaded from desdes.com, not redistributed
+original/

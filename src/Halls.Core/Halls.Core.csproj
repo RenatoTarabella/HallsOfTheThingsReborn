@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Halls.Core</RootNamespace>
+    <!-- the symbols inside the dll: nothing beside the single exe of the release -->
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- chars.bin of 1983 (tools/mkchars.py from original/halls83_chars.asm) -->
+    <EmbeddedResource Include="Assets\chars.bin" LogicalName="Halls.Core.chars.bin" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Halls.Core.Tests" />
+    <InternalsVisibleTo Include="Halls" />
+  </ItemGroup>
+
+</Project>

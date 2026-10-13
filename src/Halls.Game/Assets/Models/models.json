@@ -1,0 +1,51 @@
+{
+  // Halls of the Things - the models of the 3D view (F2).
+  // Every key is optional: "file": "" or a missing key keeps the default
+  // (boxes for walls, doors and stairs, a card with the 1983 character for the rest).
+  // See README.md in this folder. 1 cell = 1 unit, north = -Z, base on Y = 0.
+
+  "floor":          { "file": "" },
+  "wall_post":      { "file": "", "tint": true },
+  "wall_end":       { "file": "", "tint": true, "fit": false },
+  "wall_straight":  { "file": "", "tint": true, "fit": false },
+  "wall_corner":    { "file": "", "tint": true, "fit": false },
+  "wall_tee":       { "file": "", "tint": true, "fit": false },
+  "wall_cross":     { "file": "", "tint": true, "fit": false },
+  "door":           { "file": "" },
+  "forcefield":     { "file": "" },
+  "stairs_step":    { "file": "" },
+  "stairs_landing": { "file": "" },
+
+  "man":            { "file": "" },
+  "thing":          { "file": "", "tint": true },
+  "thing_0":        { "file": "" },
+  "thing_1":        { "file": "" },
+  "thing_2":        { "file": "" },
+  "thing_3":        { "file": "" },
+  "thing_4":        { "file": "" },
+  "thing_5":        { "file": "" },
+  "thing_7":        { "file": "" },
+  "corpse":         { "file": "" },
+  "corpse_sword":   { "file": "" },
+  "corpse_arrow":   { "file": "" },
+  "corpse_burning": { "file": "" },
+
+  "treasure":       { "file": "", "tint": true },
+  "treasure_0":     { "file": "" },
+  "treasure_1":     { "file": "" },
+  "treasure_2":     { "file": "" },
+  "treasure_3":     { "file": "" },
+  "potion":         { "file": "", "tint": true },
+  "potion_0":       { "file": "" },
+  "potion_1":       { "file": "" },
+  "potion_2":       { "file": "" },
+  "potion_3":       { "file": "" },
+  "ring":           { "file": "", "tint": true, "scale": 0.5 },
+  "key":            { "file": "", "scale": 0.6 },
+  "arrow_bundle":   { "file": "" },
+
+  "arrow":          { "file": "", "scale": 0.8 },
+  "lightning":      { "file": "" },
+  "fireball":       { "file": "", "scale": 0.7 },
+  "sword":          { "file": "" }
+}

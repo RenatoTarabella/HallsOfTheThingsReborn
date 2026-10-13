@@ -1,0 +1,4 @@
+| !Run for Halls of the Things (BBC BASIC V version)
+Set Halls$Dir <Obey$Dir>
+WimpSlot -min 400K -max 400K
+Run <Halls$Dir>.!RunImage

@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Halls.Game</RootNamespace>
+    <AssemblyName>Halls</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Raylib-cs" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Halls.Core\Halls.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- the 3D models (glTF/GLB/OBJ) and their mapping, replaceable without building -->
+    <None Include="Assets\Models\**\*" CopyToOutputDirectory="PreserveNewest" LinkBase="Assets\Models" />
+    <EmbeddedResource Include="Assets\icon.png" LogicalName="Halls.icon.png" />
+  </ItemGroup>
+
+  <!-- the release: one exe, nothing to install (dotnet publish -c Release -r win-x64) -->
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>embedded</DebugType>
+    <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
+  </PropertyGroup>
+
+  <!-- the models folder stays out of the single exe: it is the user's, next to it -->
+  <ItemGroup Condition="'$(PublishSingleFile)' == 'true'">
+    <None Update="Assets\Models\**\*" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+
+</Project>
