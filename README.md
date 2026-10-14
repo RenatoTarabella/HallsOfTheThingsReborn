@@ -1,4 +1,4 @@
-﻿# Halls of the Things - Reborn
+# Halls of the Things - Reborn
 
 A faithful port to .NET 10 of **Halls of the Things** (ZX Spectrum, Crystal Computing /
 Design Design, 1983) by **Simon Brattel, Martin Horsley and Neil Mottershead**,

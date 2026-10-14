@@ -1,4 +1,4 @@
-﻿namespace Halls.Core;
+namespace Halls.Core;
 
 public sealed partial class Game
 {

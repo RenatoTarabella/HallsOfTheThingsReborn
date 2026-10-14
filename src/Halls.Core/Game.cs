@@ -39,7 +39,7 @@ public sealed partial class Game
     public const int MapSize = 128;
     public const int ScreenW = 32, ScreenH = 24;
     public const int ManReload = 10;       // MMID
-    public const int TapDelay = 60;        // TapStep: 0.2 s at 300 cycles per second
+    public const int TapDelay = 30;        // TapStep: 0.1 s at 300 cycles per second
     public const int MaxWounds = 127;
     public const int MaxTreasure = 5;
     public const int StartPos = 109 * 128 + 125; // in the sanctuary, bottom right

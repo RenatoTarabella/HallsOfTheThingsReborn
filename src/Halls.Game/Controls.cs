@@ -1,4 +1,4 @@
-﻿using Halls.Core;
+using Halls.Core;
 using Raylib_cs;
 
 namespace Halls.Game;
