@@ -48,9 +48,9 @@ public sealed class App : IDisposable
                 Raylib.UnloadImage(img);
             }
         Raylib.SetTargetFPS(60);
-        if (settings.Fullscreen) Raylib.ToggleBorderlessWindowed();
+        if (options.Screenshot == null) RestoreWindow();
         spectrum = new Spectrum();
-        renderer3D = new Renderer3D(spectrum) { Preset = settings.CameraPreset, StrongInRed = settings.StrongInRed };
+        renderer3D = new Renderer3D(spectrum) { Preset = settings.CameraPreset, StrongInRed = settings.StrongInRed, ZoomLevel = settings.Zoom };
         mapView = new MapView(spectrum);
         if (options.View3D is bool v) settings.View = v ? ViewMode.TopDown3D : ViewMode.Classic2D;
         // FRAMES at loading time, once: the sequence goes on from game to game
@@ -64,6 +64,7 @@ public sealed class App : IDisposable
         {
             float dt = Raylib.GetFrameTime();
             GlobalKeys();
+            RememberWindow();
             switch (state)
             {
                 case State.Front: FrontFrame(); break;
@@ -131,6 +132,42 @@ public sealed class App : IDisposable
             renderer3D.Preset = settings.CameraPreset = (settings.CameraPreset + 1) % 3;
         }
         if (Raylib.IsKeyPressed(KeyboardKey.F12)) Raylib.TakeScreenshot($"halls-{DateTime.Now:yyyyMMdd-HHmmss}.png");
+    }
+
+    /// <summary>The window of the last time: where it was, how large, maximized, full screen.</summary>
+    void RestoreWindow()
+    {
+        if (settings.Window is [int x, int y, int w, int h] && w >= 320 && h >= 256 && OnAMonitor(x, y, w))
+        {
+            Raylib.SetWindowSize(w, h);
+            Raylib.SetWindowPosition(x, y);
+        }
+        if (settings.Maximized) Raylib.MaximizeWindow();
+        // after the rest: leaving the full screen gives back the window above
+        if (settings.Fullscreen) Raylib.ToggleBorderlessWindowed();
+    }
+
+    /// <summary>The title bar on some monitor, so that a monitor no longer there does not hide the window.</summary>
+    static bool OnAMonitor(int x, int y, int w)
+    {
+        for (int m = 0; m < Raylib.GetMonitorCount(); m++)
+        {
+            var p = Raylib.GetMonitorPosition(m);
+            int mx = (int)p.X, my = (int)p.Y, mw = Raylib.GetMonitorWidth(m), mh = Raylib.GetMonitorHeight(m);
+            if (x + w > mx + 100 && x < mx + mw - 100 && y >= my - 10 && y < my + mh - 50) return true;
+        }
+        return false;
+    }
+
+    /// <summary>Every frame, what goes into the settings: the window only while it is a plain window.</summary>
+    void RememberWindow()
+    {
+        settings.Zoom = renderer3D.ZoomLevel;
+        if (Raylib.IsWindowState(ConfigFlags.BorderlessWindowMode) || Raylib.IsWindowMinimized()) return;
+        settings.Maximized = Raylib.IsWindowMaximized();
+        if (settings.Maximized) return;
+        var p = Raylib.GetWindowPosition();
+        settings.Window = [(int)p.X, (int)p.Y, Raylib.GetScreenWidth(), Raylib.GetScreenHeight()];
     }
 
     /// <summary>Pressed now or repeating while held.</summary>

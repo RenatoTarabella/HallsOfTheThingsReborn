@@ -105,7 +105,7 @@ dotnet publish src/Halls.Game -c Release -r win-x64 -o dist   # the single exe
 
 On the front page: M / TAB switch the keys, K redefines the modern keys (a key taken by
 another action is swapped with it), R the red Things, + and - the speed. The
-settings are kept in `%APPDATA%\HallsOfTheThings\settings.json`.
+settings are kept in `%APPDATA%\HallsOfTheThings\settings.json`, with the window as it was left (position, size, maximized, full screen), the view, the camera and the 3D zoom.
 
 `Halls --3d --seed 7 --floor 1 --screenshot shot.png --frames 120` starts a game,
 runs it and saves a picture (to check the graphics).

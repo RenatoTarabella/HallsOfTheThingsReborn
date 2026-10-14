@@ -28,6 +28,13 @@ public sealed class Settings
     public string HighName { get; set; } = "Kickaha";
     public bool Fullscreen { get; set; }
 
+    /// <summary>The window as it was left: position and size when not maximized (missing = the default 1280x1024).</summary>
+    public int[]? Window { get; set; }
+    public bool Maximized { get; set; }
+
+    /// <summary>The zoom of the 3D view, 1 (the classic screen) to 2.</summary>
+    public float Zoom { get; set; } = 1;
+
     /// <summary>The redefined keys of the modern set: action -> raylib key name (missing = default).</summary>
     public Dictionary<string, string> Keys { get; set; } = new();
 
