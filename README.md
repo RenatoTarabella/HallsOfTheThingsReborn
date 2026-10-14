@@ -87,15 +87,15 @@ dotnet publish src/Halls.Game -c Release -r win-x64 -o dist   # the single exe
 
 | key (modern / 1983) | |
 |---|---|
-| cursor keys (also Z X N M) | move |
-| RETURN / O, C | open, close a door |
-| E, Q / K, D | keep, drop |
+| cursor keys (also Z X N M) | move (modern: a tap is one step, held the man walks on) |
+| E / O, C | open, close a door (modern: E also keeps what is in front) |
+| E, R / K, D | keep, drop |
 | CTRL / S | sword |
-| SPACE / A | arrow (modern: where the man looks; 1983: 5 6 7 8 choose) |
+| W A S D, SPACE / A | arrow: modern W A S D that way, SPACE where the man looks; 1983: 5 6 7 8 choose |
 | F, L, H | fireball, lightning, heal |
 | TAB / 1 | status |
 | C / SPACE | centre the screen; with SHIFT: the screen follows the man |
-| S / W | statistics under the map |
+| I / W | statistics under the map |
 | ESC / Q+T+U+I | give up |
 | P | map of the floor: only what has been seen, the game stands still (not in 1983) |
 | F2, F3 | classic / 3D view, camera (from above, tilted, low) |

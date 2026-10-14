@@ -19,6 +19,13 @@ public sealed class GameOptions
 
     /// <summary>The screen follows the man instead of jumping by 28/21 cells (not in 1983).</summary>
     public bool FollowMan { get; set; }
+
+    /// <summary>
+    /// A tap of a direction is one step: after the first step the man waits
+    /// <see cref="Game.TapDelay"/> cycles before walking on (not in 1983, where a
+    /// step is 10 cycles and a short press easily gives two).
+    /// </summary>
+    public bool TapStep { get; set; }
 }
 
 /// <summary>
@@ -32,6 +39,7 @@ public sealed partial class Game
     public const int MapSize = 128;
     public const int ScreenW = 32, ScreenH = 24;
     public const int ManReload = 10;       // MMID
+    public const int TapDelay = 60;        // TapStep: 0.2 s at 300 cycles per second
     public const int MaxWounds = 127;
     public const int MaxTreasure = 5;
     public const int StartPos = 109 * 128 + 125; // in the sanctuary, bottom right
@@ -69,6 +77,9 @@ public sealed partial class Game
     int newFloor;                     // NFloorFl
     long manDue, manTurnBase;
     bool manDead;
+    // not in the saved game: a press, and the steps of a held key
+    int aim = -1;
+    bool walking;
 
     // the floors
     int cFloor;                       // 0-7, 8 = the golden key is taken
@@ -125,6 +136,22 @@ public sealed partial class Game
     }
 
     public void Press(Command c) => pending[(int)c] = true;
+
+    /// <summary>Modern controls: an arrow in the given direction (0 up, 1 right, 2 down, 3 left), the man not turning.</summary>
+    public void Shoot(int dir)
+    {
+        aim = dir & 3;
+        Press(Command.Arrow);
+    }
+
+    /// <summary>Something to keep in front of the man (what K would take).</summary>
+    public bool KeepableInFront()
+    {
+        int f = Front();
+        return Keepable(M(f)) || ((ManDir & 1) != 0 && Keepable(M(f + 128)));
+    }
+
+    static bool Keepable(int c) => Codes.IsTreasure(c) || Codes.IsPotion(c) || (c & 0xFC) == Codes.ArrowBundle || Codes.IsRing(c);
 
     bool Take(Command c)
     {

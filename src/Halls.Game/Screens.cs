@@ -78,10 +78,12 @@ public static class Screens
                 && KeyMap.Get(st, Binding.Left) == Raylib_cs.KeyboardKey.Left && KeyMap.Get(st, Binding.Right) == Raylib_cs.KeyboardKey.Right;
             s.Text(0, 2, "MOVEMENT  " + (cursor ? "Cursor keys" : Fit($"{K(Binding.Up)} {K(Binding.Down)} {K(Binding.Left)} {K(Binding.Right)}", 22)));
             s.Text(2, 4, Fit($"Doors   {K(Binding.OpenClose)}:Open/Close", 30));
-            s.Text(0, 6, Fit($"OBJECTS   {K(Binding.Keep)}:Keep  {K(Binding.Drop)}:Drop"));
+            s.Text(0, 6, Fit($"OBJECTS   {K(Binding.OpenClose)}:Keep  {K(Binding.Drop)}:Drop"));
             s.Text(0, 8, Fit($"WEAPONS   {K(Binding.Sword)}:Sword"));
-            s.Text(2, 10, Fit($"Arrows  {K(Binding.Arrow)}:Shoot", 30));
-            s.Text(10, 11, "where you look");
+            string[] shoot = [K(Binding.ShootUp), K(Binding.ShootLeft), K(Binding.ShootDown), K(Binding.ShootRight)];
+            string wasd = string.Join(shoot.All(k => k.Length == 1) ? "" : " ", shoot);
+            s.Text(2, 10, Fit($"Arrows  {wasd}:Shoot that way", 30));
+            s.Text(10, 11, Fit($"{K(Binding.Arrow)}:where you look", 22));
             s.Text(2, 13, Fit($"Spells  {K(Binding.Fireball)}:Fireball {K(Binding.Lightning)}:Lightning", 30));
             s.Text(10, 14, Fit($"{K(Binding.Heal)}:Heal", 22));
             s.Text(0, 16, Fit($"VARIOUS   {K(Binding.Status)}:Display status"));
@@ -126,14 +128,15 @@ public static class Screens
     /// <summary>Redefine keys: the actions of the modern set and their keys.</summary>
     public static void Keys(Spectrum s, Settings st, int selected, bool waiting, string message)
     {
-        s.Text(0, 0, "Redefine keys");
+        // 20 actions: from the border above down to row 18
+        s.Text(0, -3, "Redefine keys");
         for (int i = 0; i < KeyMap.All.Length; i++)
         {
             var (action, label, _) = KeyMap.All[i];
-            string line = (label + " ").PadRight(18, '.') + " " + KeyMap.Name(KeyMap.Get(st, action));
+            string line = (label + " ").PadRight(21, '.') + " " + KeyMap.Name(KeyMap.Get(st, action));
             if (i == selected)
-                s.Text(0, 2 + i, ">" + Fit(line, 31), waiting && s.Blink ? Raylib_cs.Color.Black : Spectrum.Ink(Codes.Treasure));
-            else s.Text(1, 2 + i, Fit(line, 31));
+                s.Text(0, i - 1, ">" + Fit(line, 31), waiting && s.Blink ? Raylib_cs.Color.Black : Spectrum.Ink(Codes.Treasure));
+            else s.Text(1, i - 1, Fit(line, 31));
         }
         if (waiting) s.Text(0, 20, "Press the new key", Spectrum.Ink(Codes.Treasure));
         else s.Text(0, 20, Fit(message));

@@ -1,4 +1,4 @@
-namespace Halls.Core;
+﻿namespace Halls.Core;
 
 public sealed partial class Game
 {
@@ -91,7 +91,7 @@ public sealed partial class Game
             if (Up && !Down) d = 0;
             if (Down && !Up) d = 2;
         }
-        if (d < 0) return;
+        if (d < 0) { walking = false; return; }
         if (d != ManDir)
         {
             // turning costs three steps
@@ -113,6 +113,9 @@ public sealed partial class Game
         if (Codes.IsMarker(c)) newFloor = (c & 7) + 1;
         underMan = c ^ 0x20;
         ManPos = n;
+        // TapStep: the first step of a press, then a pause before walking on
+        if (!walking && Options.TapStep) manDue = manTurnBase + TapDelay;
+        walking = true;
         if (Options.FollowMan)
         {
             Follow();
@@ -264,11 +267,13 @@ public sealed partial class Game
     void FireArrow()
     {
         if (!Take(Command.Arrow)) return;
+        int a = aim;
+        aim = -1;
         var j = FreeProjectile();
         if (j == null) return;
         if (ArrowCount == 0) return;
         ArrowCount--;
-        if (Options.ModernControls) ArrowDir = ManDir;
+        if (Options.ModernControls) ArrowDir = a >= 0 ? a : ManDir;
         int h = ManPos, de = CD[ArrowDir];
         if (ArrowDir == 2) h += de;
         if ((ArrowDir & 1) != 0)

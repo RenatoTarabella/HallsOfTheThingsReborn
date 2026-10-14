@@ -1,4 +1,4 @@
-using System.Numerics;
+﻿using System.Numerics;
 using Halls.Core;
 using Raylib_cs;
 
@@ -225,7 +225,7 @@ public sealed class App : IDisposable
     void StartGame()
     {
         // "Please wait for a second": Gen8 takes a few milliseconds here
-        game = new Core.Game(seed, new GameOptions { ModernControls = settings.ModernKeys, FollowMan = settings.FollowMan });
+        game = new Core.Game(seed, new GameOptions { ModernControls = settings.ModernKeys, FollowMan = settings.FollowMan, TapStep = settings.ModernKeys });
         game.Start();
         pending = 0;
         renderer3D.Snap();
@@ -262,7 +262,7 @@ public sealed class App : IDisposable
         {
             using (var r = new BinaryReader(File.OpenRead(Settings.SavedGamePath)))
             {
-                g = Core.Game.Load(r, new GameOptions { ModernControls = settings.ModernKeys, FollowMan = settings.FollowMan });
+                g = Core.Game.Load(r, new GameOptions { ModernControls = settings.ModernKeys, FollowMan = settings.FollowMan, TapStep = settings.ModernKeys });
                 if (g != null) mapView.Load(r);
             }
         }

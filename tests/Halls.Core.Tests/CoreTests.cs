@@ -206,6 +206,30 @@ public class ManTests
     }
 
     [Fact]
+    public void TapStep_a_short_press_is_one_step_a_held_one_walks_on()
+    {
+        var g = new Game(4242, new GameOptions { ModernControls = true, TapStep = true });
+        g.Start();
+        Hold(g, left: true);
+        for (int i = 0; i < 32; i++) g.Tick();   // the turn, then the first step at cycle 31
+        Assert.Equal(Game.StartPos - 1, g.ManPos);
+        for (int i = 0; i < Game.TapDelay - 1; i++) g.Tick();
+        Assert.Equal(Game.StartPos - 1, g.ManPos); // the pause after the first step
+        g.Tick();
+        Assert.Equal(Game.StartPos - 2, g.ManPos);
+        for (int i = 0; i < 10; i++) g.Tick();
+        Assert.Equal(Game.StartPos - 3, g.ManPos); // then a step every 10 cycles
+        // released and pressed again: one step, and the pause again
+        Hold(g);
+        for (int i = 0; i < 10; i++) g.Tick();
+        Hold(g, left: true);
+        for (int i = 0; i < 10; i++) g.Tick();
+        Assert.Equal(Game.StartPos - 4, g.ManPos);
+        for (int i = 0; i < 20; i++) g.Tick();
+        Assert.Equal(Game.StartPos - 4, g.ManPos);
+    }
+
+    [Fact]
     public void The_stairs_change_the_floor_on_the_left()
     {
         var g = NewGame();

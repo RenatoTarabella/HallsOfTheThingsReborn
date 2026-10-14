@@ -1,4 +1,4 @@
-using Halls.Core;
+﻿using Halls.Core;
 using Raylib_cs;
 
 namespace Halls.Game;
@@ -6,7 +6,8 @@ namespace Halls.Game;
 /// <summary>What a key of the modern set does (all can be redefined).</summary>
 public enum Binding
 {
-    Up, Down, Left, Right, OpenClose, Keep, Drop, Sword, Arrow, Fireball, Lightning, Heal,
+    Up, Down, Left, Right, OpenClose, Drop, Sword, Arrow, ShootUp, ShootLeft, ShootDown, ShootRight,
+    Fireball, Lightning, Heal,
     Status, Centre, Map, Statistics, GiveUp,
 }
 
@@ -19,18 +20,21 @@ public static class KeyMap
         (Binding.Down, "Down", KeyboardKey.Down),
         (Binding.Left, "Left", KeyboardKey.Left),
         (Binding.Right, "Right", KeyboardKey.Right),
-        (Binding.OpenClose, "Open/Close door", KeyboardKey.Enter),
-        (Binding.Keep, "Keep", KeyboardKey.E),
-        (Binding.Drop, "Drop", KeyboardKey.Q),
+        (Binding.OpenClose, "Door / Keep", KeyboardKey.E),
+        (Binding.Drop, "Drop", KeyboardKey.R),
         (Binding.Sword, "Sword", KeyboardKey.LeftControl),
-        (Binding.Arrow, "Arrow", KeyboardKey.Space),
+        (Binding.Arrow, "Arrow, where looking", KeyboardKey.Space),
+        (Binding.ShootUp, "Arrow up", KeyboardKey.W),
+        (Binding.ShootLeft, "Arrow left", KeyboardKey.A),
+        (Binding.ShootDown, "Arrow down", KeyboardKey.S),
+        (Binding.ShootRight, "Arrow right", KeyboardKey.D),
         (Binding.Fireball, "Fireball", KeyboardKey.F),
         (Binding.Lightning, "Lightning", KeyboardKey.L),
         (Binding.Heal, "Heal", KeyboardKey.H),
         (Binding.Status, "Display status", KeyboardKey.Tab),
         (Binding.Centre, "Centre", KeyboardKey.C),
         (Binding.Map, "Map", KeyboardKey.P),
-        (Binding.Statistics, "Statistics", KeyboardKey.S),
+        (Binding.Statistics, "Statistics", KeyboardKey.I),
         (Binding.GiveUp, "Give up", KeyboardKey.Escape),
     ];
 
@@ -98,11 +102,14 @@ public static class Controls
 
     static readonly (Binding Action, Command Cmd)[] ModernCommands =
     [
-        (Binding.OpenClose, Command.Open), (Binding.Keep, Command.Keep), (Binding.Drop, Command.Drop),
+        (Binding.Drop, Command.Drop),
         (Binding.Sword, Command.Sword), (Binding.Arrow, Command.Arrow), (Binding.Fireball, Command.Fireball),
         (Binding.Lightning, Command.Lightning), (Binding.Heal, Command.Heal), (Binding.Status, Command.Status),
         (Binding.Centre, Command.Centre),
     ];
+
+    static readonly (Binding Action, int Dir)[] ShootKeys =
+        [(Binding.ShootUp, 0), (Binding.ShootRight, 1), (Binding.ShootDown, 2), (Binding.ShootLeft, 3)];
 
     public static bool Shift => Raylib.IsKeyDown(KeyboardKey.LeftShift) || Raylib.IsKeyDown(KeyboardKey.RightShift);
 
@@ -132,6 +139,11 @@ public static class Controls
         g.Up = Down(KeyMap.Get(s, Binding.Up));
         g.Down = Down(KeyMap.Get(s, Binding.Down));
         g.Quit = Down(KeyMap.Get(s, Binding.GiveUp));
+        // one key for the door and for what is in front: Keep when there is something to keep, else Open (that also closes)
+        if (Raylib.IsKeyPressed(KeyMap.Get(s, Binding.OpenClose))) g.Press(g.KeepableInFront() ? Command.Keep : Command.Open);
+        // W A S D: an arrow that way, the man not turning
+        foreach (var (action, dir) in ShootKeys)
+            if (Raylib.IsKeyPressed(KeyMap.Get(s, action))) g.Shoot(dir);
         foreach (var (action, cmd) in ModernCommands)
         {
             if (cmd == Command.Centre && Shift) continue;
